@@ -1,4 +1,4 @@
-# awesome-interview
+# awesome-iOS-interview
 iOS面试题总结：总结今天去美团面试的情况和以后面试需要准备的东西，包括基本知识点、算法。
 
 ### 1、什么情况下使用weak？相比assign有什么不同？
