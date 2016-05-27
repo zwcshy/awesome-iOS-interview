@@ -59,3 +59,25 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
 
   因此，开发iOS程序时一般都会使用 nonatomic 属性。但是在开发 Mac OS X 程序时，使用 atomic 属性通常都不会有性能瓶颈。
 
+### 4、以+ scheduledTimerWithTimeInterval...的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？
+  RunLoop只能运行在一种mode下，如果要换mode，当前的loop也需要停下重启成新的。利用这个机制，ScrollView滚动过程中NSDefaultRunLoopMode（kCFRunLoopDefaultMode）的mode会切换到UITrackingRunLoopMode来保证ScrollView的流畅滑动：只能在NSDefaultRunLoopMode模式下处理的事件会影响ScrollView的滑动。
+
+  > 如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。
+
+  > 同时因为mode还是可定制的，所以：
+
+  > Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes（kCFRunLoopCommonModes）来解决。代码如下：
+  
+    //将timer添加到NSDefaultRunLoopMode中
+[NSTimer scheduledTimerWithTimeInterval:1.0
+     target:self
+     selector:@selector(timerTick:)
+     userInfo:nil
+     repeats:YES];
+//然后再添加到NSRunLoopCommonModes里
+NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+     target:self
+     selector:@selector(timerTick:)
+     userInfo:nil
+     repeats:YES];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
