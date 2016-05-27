@@ -69,15 +69,8 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
   > Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes（kCFRunLoopCommonModes）来解决。代码如下：
   
     //将timer添加到NSDefaultRunLoopMode中
-[NSTimer scheduledTimerWithTimeInterval:1.0
-     target:self
-     selector:@selector(timerTick:)
-     userInfo:nil
-     repeats:YES];
-//然后再添加到NSRunLoopCommonModes里
-NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
-     target:self
-     selector:@selector(timerTick:)
-     userInfo:nil
-     repeats:YES];
-[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    
+    //然后再添加到NSRunLoopCommonModes里
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
