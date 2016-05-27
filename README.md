@@ -23,4 +23,4 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
   > 2) block 也经常使用 copy 关键字:
     block 使用 copy 是从 MRC 遗留下来的“传统”,在 MRC 中,方法内部的 block 是在栈区的,使用 copy 可以把它放到堆区.在 ARC 中写不写都行：对于 block 使用 copy 还是 strong 效果是一样的，但写上 copy 也无伤大雅，还能时刻提醒我们：编译器自动对 block 进行了 copy 操作。如果不写 copy ，该类的调用者有可能会忘记或者根本不知道“编译器会自动对 block 进行了 copy 操作”，他们有可能会在调用之前自行拷贝属性值。这种操作多余而低效。
     
-
+### 3、这个写法会出什么问题： <td bgcolor=#7FFFD4> @property (copy) NSMutableArray *array;</td>
