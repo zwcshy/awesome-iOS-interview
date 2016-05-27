@@ -32,8 +32,18 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
     
     比如下面的代码就会发生崩溃:
     
-        // .h文件
-        // http://weibo.com/luohanchenyilong/
-        // https://github.com/ChenYilong
-        // 下面的代码就会发生崩溃
+      // .h文件
+      // 下面的代码就会发生崩溃
         @property (nonatomic, copy) NSMutableArray *mutableArray;
+      
+      // .m文件
+      // 下面的代码就会发生崩溃
+        NSMutableArray *array = [NSMutableArray arrayWithObjects:@1,@2,nil];
+        self.mutableArray = array;
+        [self.mutableArray removeObjectAtIndex:0];
+      
+      接下来就会奔溃：
+      
+          -[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+      
+      
