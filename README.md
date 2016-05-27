@@ -74,3 +74,7 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
     //然后再添加到NSRunLoopCommonModes里
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+
+### 5、BAD_ACCESS在什么情况下出现？
+  > 访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。 死循环
+  
