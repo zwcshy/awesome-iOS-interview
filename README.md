@@ -23,4 +23,17 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
   > 2) block 也经常使用 copy 关键字:
     block 使用 copy 是从 MRC 遗留下来的“传统”,在 MRC 中,方法内部的 block 是在栈区的,使用 copy 可以把它放到堆区.在 ARC 中写不写都行：对于 block 使用 copy 还是 strong 效果是一样的，但写上 copy 也无伤大雅，还能时刻提醒我们：编译器自动对 block 进行了 copy 操作。如果不写 copy ，该类的调用者有可能会忘记或者根本不知道“编译器会自动对 block 进行了 copy 操作”，他们有可能会在调用之前自行拷贝属性值。这种操作多余而低效。
     
-### 3、这个写法会出什么问题： <td bgcolor=#7FFFD4>@property (copy) NSMutableArray *array;</td>
+### 3、这个写法会出什么问题: @property (copy) NSMutableArray *array;
+
+  两个问题：
+  
+  > 1、添加,删除,修改数组内的元素的时候,程序会因为找不到对应的方法而崩溃.因为 copy 就是复制一个不可变 NSArray 的对象；
+    2、使用了 atomic 属性会严重影响性能 ；
+    
+    比如下面的代码就会发生崩溃:
+    
+        // .h文件
+        // http://weibo.com/luohanchenyilong/
+        // https://github.com/ChenYilong
+        // 下面的代码就会发生崩溃
+        @property (nonatomic, copy) NSMutableArray *mutableArray;
