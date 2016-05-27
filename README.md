@@ -14,10 +14,9 @@ iOS面试题总结：总结今天去美团面试的情况和以后面试需要�
   assigin 可以用非 OC 对象,而 weak 必须用于 OC 对象
   
   assign、retain、copy的区别：
-  > assign：简单赋值，不更改索引计数。
-          使用对象L基本数据类型(NSInteger)、C数据类型(int、float、char等);
-    retain：该属性在赋值的时候，先release之前的值，然后再赋新值给属性，引用+1;
-    copy：前一个值发送release消息，基本上像retain，但是它没有增加引用计数，是分配一块新的内存来放置它
+  > assign：简单赋值，不更改索引计数。使用对象L基本数据类型(NSInteger)、C数据类型(int、float、char等);
+  > retain：该属性在赋值的时候，先release之前的值，然后再赋新值给属性，引用+1;
+  > copy：前一个值发送release消息，基本上像retain，但是它没有增加引用计数，是分配一块新的内存来放置它
     
   > 总结：copy是创建一个新对象，retain是创建一个指针！
 
