@@ -90,5 +90,7 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
   
   具体步骤：
     1、需声明该类遵从 NSCopying 协议
+    
     2、实现 NSCopying 协议。该协议只有一个方法:
+    
       - (id)copyWithZone:(NSZone *)zone;
