@@ -152,15 +152,17 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
   > “属性”(property)有两大概念：ivar(实例变量)、存取方法(access method=getter)，即@property = ivar + getter + setter。
   
   > 例如下面的这个类：
+  
   > @interface WBTextView :UITextView  
-  >   @property (nonatomic,copy)NSString *placehold;  
-  >   @property (nonatomic,copy)UIColor *placeholdColor;  
+  > @property (nonatomic,copy)NSString *placehold;  
+  > @property (nonatomic,copy)UIColor *placeholdColor;  
   > @end
   
-  > 类完成属性的定以后，编译器会自动编写访问这些属性的方法(自动合成autosynthesis)，上述代码写出来的类等效与下面的代码：
+  > 类完成属性的定以后，编译器会自动编写访问这些属性的方法(自动合成autosynthesis)，上述代码写出来的类等效与下面的代码
+  ：
   > @interface WBTextView :UITextView  
-  >  - (NSString *)placehold;  
-  >  -(void)setPlacehold:(NSString *)placehold;  
-  >  -(UIColor *)placeholdColor;  
-  >  -(void)setPlaceholdColor:(UIColor *)placeholdColor;  
+  > - (NSString *)placehold;  
+  > -(void)setPlacehold:(NSString *)placehold;  
+  > -(UIColor *)placeholdColor;  
+  > -(void)setPlaceholdColor:(UIColor *)placeholdColor;  
   > @end
