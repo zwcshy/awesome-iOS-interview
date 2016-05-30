@@ -85,4 +85,10 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
 ### 5、BAD_ACCESS在什么情况下出现？
   > 访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。 死循环
   
+### 6、如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？
+  > 若想令自己所写的对象具有拷贝功能，则需实现 NSCopying 协议。如果自定义的对象分为可变版本与不可变版本，那么就要同时实现 NSCopying 与 NSMutableCopying 协议。
   
+  具体步骤：
+    1、需声明该类遵从 NSCopying 协议
+    2、实现 NSCopying 协议。该协议只有一个方法:
+      - (id)copyWithZone:(NSZone *)zone;
