@@ -160,9 +160,30 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
   
   > 类完成属性的定以后，编译器会自动编写访问这些属性的方法(自动合成autosynthesis)，上述代码写出来的类等效与下面的代码
   ：
+  
   > @interface WBTextView :UITextView  
   > - (NSString *)placehold;  
   > -(void)setPlacehold:(NSString *)placehold;  
   > -(UIColor *)placeholdColor;  
   > -(void)setPlaceholdColor:(UIColor *)placeholdColor;  
   > @end
+
+详细介绍见：[oc的@property属性](http://blog.csdn.net/jasonjwl/article/details/49427377)
+
+### 6.分别写一个setter方法用于完成@property (nonatomic,retain)NSString *name和@property (nonatomic,copy) NSString *name
+
+  > retain属性的setter方法是保留新值并释放旧值，然后更新实例变量，令其指向新值。顺序很重要。假如还未保留新值就先把旧值释放了，而且两个值又指向同一个对象，先执行的release操作就可能导致系统将此对象永久回收。
+  
+    -(void)setName:(NSString *)name
+    {
+      [name retain];
+      [_name release];
+      _name = name;
+    }
+    -(void)setName:(NSString *)name
+    {
+       
+      [_name release];
+      _name = [name copy];
+    }
+
