@@ -187,3 +187,46 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
       _name = [name copy];
     }
 
+### 7.说说assign vs weak，_block vs _weak的区别?
+  > assign适用于基本数据类型，weak是适用于NSObject对象，并且是一个弱引用。
+  > assign其实页可以用来修饰对象，那么为什么不用它呢？因为被assign修饰的对象在释放之后，指针的地址还是存在的，也就是说指针并没有被置为nil。如果在后续内存分配中，刚才分到了这块地址，程序就会崩溃掉。而weak修饰的对象在释放之后，指针地址会被置为nil。
+
+  > _block是用来修饰一个变量，这个变量就可以在block中被修改。
+
+  > _block:使用_block修饰的变量在block代码块中会被retain(ARC下，MRC下不会retain)
+
+  > _weak:使用_weak修饰的变量不会在block代码块中被retain
+  
+### 8.请说出下面代码是否有问题，如果有问题请修改？
+      @autoreleasepool {
+        for (int i=0; i[largeNumber; i++) { (因识别问题，该行代码中尖括号改为方括号代替)
+            Person *per = [[Person alloc] init];
+            [per autorelease];
+        }
+    }
+> 内存管理的原则：如果对一个对象使用了alloc、copy、retain，那么你必须使用相应的release或者autorelease。咋一看，这道题目有alloc，也有autorelease，两者对应起来，应该没问题。但autorelease虽然会使引用计数减一，但是它并不是立即减一，它的本质功能只是把对象放到离他最近的自动释放池里。当自动释放池销毁了，才会向自动释放池中的每一个对象发送release消息。这道题的问题就在autorelease。因为largeNumber是一个很大的数，autorelease又不能使引用计数立即减一，所以在循环结束前会造成内存溢出的问题。
+
+解决方案如下：
+    @autoreleasepool {
+        for (int i=0; i[100000; i++) { (因识别问题，该行代码中尖括号改为方括号代替)
+            @autoreleasepool {
+            Person *per = [[Person alloc] init];
+            [per autorelease];
+        }
+      }
+    }
+    
+在循环内部再加一个自动释放池，这样就能保证每创建一个对象就能及时释放。
+
+### 9.请问下面代码是否有问题，如有问题请修改？
+      @autoreleasepool {
+        NSString *str = [[NSString alloc] init];
+        [str retain];
+        [str retain];
+        str = @"jxl";
+        [str release];
+        [str release];
+        [str release];
+      }
+  > 这道题跟第8题一样存在内存泄露问题，1.内存泄露 2.指向常量区的对象不能release。
+指针变量str原本指向一块开辟的堆区空间，但是经过重新给str赋值，str的指向发生了变化，由原来指向堆区空间，到指向常量区。常量区的变量根本不需要释放，这就导致了原来开辟的堆区空间没有释放，照成内存泄露。
