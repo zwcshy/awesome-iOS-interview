@@ -118,3 +118,15 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
 > ⑨ 在heightForRowAtIndexPath:中尽量不使用cellForRowAtIndexPath:，如果你需要用到它，只用一次然后缓存结果
 
 > ⑩ 尽量少用addView给Cell动态添加View，可以初始化时就添加，然后通过hide来控制是否显示
+
+## 内存管理
+  ### 1.什么是ARC？
+  > ARC是automatic reference counting自动引用计数，在程序编译时自动加入retain/release。在对象被创建时retain count+1，在对象被release时count-1，当count=0时，销毁对象。程序中加入autoreleasepool对象会由系统自动加上autorelease方法，如果该对象引用计数为0，则销毁。那么ARC是为了解决MRC手动管理内存存在的一些而诞生的。
+  
+  MRC下内存管理的缺点：
+  
+    释放一个堆内存时，首先要确定指向这个堆空间的指针都被release了。(避免提前释放)
+释放指针指向的堆空间，首先要确定哪些指向同一个堆，这些指针只能释放一次。(避免释放多次，造成内存泄露)
+模块化操作时，对象可能被多个模块创建和使用，不能确定最后由谁释放
+多线程操作时，不确定哪个线程最后使用完毕。
+  
