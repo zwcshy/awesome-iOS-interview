@@ -98,15 +98,23 @@ iOS面试题总结：总结今天（2016.05.27）去美团面试的情况和以�
 ### 7、UITableView的优化主要从三个方面入手：
 
 > ① 提前计算并缓存好高度（布局），因为heightForRowAtIndexPath:是调用最频繁的方法；
+
 > ② 异步绘制，遇到复杂界面，遇到性能瓶颈时，可能就是突破口；
+
 > ③ 滑动时按需加载，这个在大量图片展示，网络加载的时候很管用！（SDWebImage已经实现异步加载，配合这条性能杠杠的）。
 
 除了上面最主要的三个方面外，还有很多几乎大伙都很熟知的优化点：
 
 > ④ 正确使用reuseIdentifier来重用Cells
+
 > ⑤ 尽量使所有的view opaque，包括Cell自身
+
 > ⑥ 尽量少用或不用透明图层
+
 > ⑦ 如果Cell内现实的内容来自web，使用异步加载，缓存请求结果
+
 > ⑧ 减少subviews的数量
+
 > ⑨ 在heightForRowAtIndexPath:中尽量不使用cellForRowAtIndexPath:，如果你需要用到它，只用一次然后缓存结果
+
 > ⑩ 尽量少用addView给Cell动态添加View，可以初始化时就添加，然后通过hide来控制是否显示
